@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Generador QR</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:Arial,sans-serif;background:#f1f5f9;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;}
+  .card{background:#fff;border-radius:20px;box-shadow:0 8px 32px #0002;width:100%;max-width:480px;overflow:hidden;}
+  .header{background:linear-gradient(135deg,#7c3aed,#4f46e5);padding:20px 24px;color:#fff;}
+  .header h1{font-size:1.2rem;margin-bottom:2px;}
+  .header p{font-size:.8rem;opacity:.75;}
+  .body{padding:20px;}
+  label{display:block;font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .section{margin-bottom:18px;}
+  input[type=text], input[type=url]{width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:12px;font-size:.95rem;outline:none;transition:border .2s;}
+  input[type=text]:focus, input[type=url]:focus{border-color:#7c3aed;}
+  .search-wrap{position:relative;}
+  .search-wrap input{padding-left:36px;}
+  .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:1rem;}
+  .dropdown{border:2px solid #e2e8f0;border-radius:12px;max-height:200px;overflow-y:auto;display:none;margin-top:4px;}
+  .dropdown.open{display:block;}
+  .dropdown-item{padding:10px 14px;cursor:pointer;font-size:.9rem;border-bottom:1px solid #f1f5f9;transition:background .15s;}
+  .dropdown-item:last-child{border-bottom:none;}
+  .dropdown-item:hover{background:#f5f3ff;}
+  .dropdown-item.selected{background:#ede9fe;font-weight:700;color:#5b21b6;}
+  .selected-badge{display:inline-block;background:#ede9fe;color:#5b21b6;border-radius:8px;padding:6px 12px;font-size:.85rem;font-weight:700;margin-top:6px;}
+  .row{display:flex;gap:10px;}
+  .row .section{flex:1;}
+  .btn{width:100%;padding:12px;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+  .btn:hover{opacity:.88;}
+  .btn-primary{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;}
+  .btn-outline{background:#f0fdf4;color:#16a34a;border:2px solid #86efac;}
+  .btn-sm{padding:7px 14px;font-size:.8rem;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+  .btn-auto{background:#f1f5f9;color:#475569;}
+  .btn-edit{background:#ede9fe;color:#5b21b6;}
+  .lote-row{display:flex;align-items:center;gap:8px;}
+  .lote-display{flex:1;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border-radius:12px;padding:10px 16px;font-size:1.1rem;font-weight:700;letter-spacing:.1em;}
+  .lote-input{flex:1;font-size:1.1rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+  #qr-section{text-align:center;display:none;}
+  #qr-section.visible{display:block;}
+  #qr-canvas-wrap{display:inline-block;background:#fff;padding:12px;border:2px solid #e2e8f0;border-radius:16px;margin:12px 0;}
+  #qr-canvas-wrap canvas{display:block;}
+  .content-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;text-align:left;margin-bottom:14px;}
+  .content-box p{font-size:.8rem;color:#94a3b8;margin-bottom:4px;}
+  .content-box pre{font-size:.8rem;font-family:monospace;color:#334155;white-space:pre-wrap;word-break:break-all;}
+  .actions{display:flex;flex-direction:column;gap:10px;}
+  
+  /* Settings modal */
+  .modal-bg{display:none;position:fixed;inset:0;background:#0006;z-index:100;align-items:center;justify-content:center;padding:16px;}
+  .modal-bg.open{display:flex;}
+  .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
+  .modal-header{background:linear-gradient(135deg,#374151,#111827);color:#fff;padding:16px 20px;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;}
+  .modal-body{padding:20px;}
+  .modal-body label{margin-top:14px;}
+  
+  .prod-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;background:#f8fafc;border-radius:10px;margin-bottom:8px; border: 1px solid #e2e8f0;}
+  .prod-item-row{display:flex; width:100%; gap:8px;}
+  .prod-item input{flex:1;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:.85rem;}
+  .btn-del{background:#fee2e2;color:#ef4444;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem; font-weight:bold;}
+  
+  .btn-add-prod{background:#ede9fe;color:#5b21b6;border:none;border-radius:10px;padding:10px 14px;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;}
+  .btn-save{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:12px;padding:12px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-top:16px;}
+  .close-btn{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;}
+  .no-results{padding:12px;text-align:center;color:#94a3b8;font-size:.85rem;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAHDRIPDQ8OEBANDREOEA8SDQ8QDw0RIBUiGx4dGRYYHSkhHhomHxcZIjEmJSs3OjAvIx8/OD8sQyg5LiwBCgoKDQ0OGhAQFSslFR0tNy0tLS0tLysrLS0rMS0rNy0tLS0tLS0tLTcrLTcrKysrLTcrLSstKy0rKysrLS0rN//AABEIAMgAyAMBIgACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAABgcEBQgBAwL/xABMEAABAwMAAwUSCgkFAAAAAAAAAQIDBAURBhIhExYxVbIHFCIzNTZBUVRyc3WBlbPC0dIVMjRhcXSSk5TTCBdTVoSRoaLDIyREUmL/xAAYAQEBAQEBAAAAAAAAAAAAAAAAAwIEAf/EACERAQACAgIDAQADAAAAAAAAAAABEQIDEjETIVHwIjJB/9oADAMBAAIRAxEAPwC8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADHrXrFDI5q4VsbnIuzYqIZBjXHpEvgX8lQKxslRe7nRQ1br1SQMqEcrWy01M1djlbwqz5jL1bx+8Vt+6pPcIPpX1uWjvqrlqQM6IwtKcqXpq3j94rb91S+4NW8fvFbfuqX3Ciwa8TzkvTVvH7xW37ql9w+kFNe6l2rHf6B7sZ1WU9M538kYUOTrmMdW4/ATckzlrqLexlcrJ+BNIuOKb8FD+WefAmkXHFN+Ch/LJ6CHJSkC+BNIuOKb8FD+WPgTSLjim/BQ/lk9A5FIEtl0iamVvFNs2r/sofyz4c433j2h/DU3uE00h+Q1P1Sb0anKBXDHkxlNL75xvvHtD+Gp/cHON949ofw1P7hQgKeL9TPNffON949ofw1P7g5xvvHtD+Gp/cKEA8X6jmuu61t6sMlI+e5wVEVVWx06tjpoE2Ku3otQktfpa+mqHNSNqxxq/LcLrva1XI5dbOGr/AKT8NwucJwZ2Vvbuotp8eesXPNZaeaXdXR5erkevRvRjnJwKrEXVVyYTaqdhCOVR23HtsQATbAAAAAAxrj0iXwL+SpkmNcekS+BfyVAoTSvrbtHfVXLUgZPNK+tu0d9VctSBnZr6Qy7AAbZCdcxfq3H4CbkkFM20XWezTJPSyLFKjVaj0a1di8PxkM5RcU9j1LrMFeaFc0CldboVuNdHz0u6brr7HdMdjKNTHxdU3u/+093wf3+w5JxmP8X5QkoI1v8A7T3fB/d7Bv8A7T3fB/f7DzjPwuG10h+Q1P1Sb0anKBbHNO0/c98cdqrWuhlgeydGRsciqq4xl7cps7RU50acZiPaWc3IACzAAALJt3UW0+PPWL2KJt3UW0+PPWL2OTYvi9ABNoAAAAADGuPSJfAv5KmSY1x6RL4F/JUChNK+tu0d9VctSBk80r627R31Vy1IGdmvpDLsABtl+4IXVDkZG1z3O4GtarnL5EMie11FM1XyU87Gt4XOhe1qeVUJBzK+rtJ38vonFx813qDVfTB6dhPLZWUQ1GNxbnEAFGQAAfqNiyORrUVVcuEREVVVfJ2TPlsVZC1XPpKlrWplzlgkRETtrs4Bo58vpfrcHLQ6V0y6l1f1SXkqTzz4zENRjblkAFGQAAWTbuotp8eesXsUTbuotp8eesXscmxfF6ACbQAAAAAGNcekS+BfyVMkxrj0iXwL+SoFCaV9bdo76q5akDJ5pX1t2jvqrlqQM7NfSGXYADbKV8yvq7Sd/L6Jx0DpHZY9IaSSkmc9rJtTKsVEcmHo5MZ+dqHLtqr32uojqIlw+CRsjfJ2PoOq7XXMuVPHPEuWTRtkavzKhz7riYlXX1SA/qaoP21V9tnuj9TVB+2qvts90skEvJl9a4wrb9TVB+2qvts90fqaoP21V9tnulkgeTL6cYV5RcySho5o5Wy1KuhkbI1FczGUXP8A1+YlWmXUur+qS8lTcFf82S//AAVbud2LiWuVY07aRJhXr/VE8p7EzlMHqIUAADsQAABZNu6i2nx56xexRNu6i2nx56xexybO18XoAJtAAAAAAY1x6RL4F/JUyTGuPSJfAv5KgUJpX1t2jvqrlqQMnmlfW3aO+quWpAzs19IZdgANshenMMu7qyhlpXZXnKRqtX/w/WXH82u/mUWW/wDo+/8AP/hP8pPbH8W8O1wgA5FgAAeKc1802+LfLrM7budO7neJq9hG7FXyuyp0opyhpF8vqfrc/pFLaY9p7OmvAB0pAAAsm3dRbT489YvYom3dRbT489YvY5Ni+L0AE2gAAAAAMa49Il8C/kqZJjXHpEvgX8lQKE0r627R31Vy1IGTzSvrbtHfVXLUgZ2a+kMuwAG2Qt/9H3/n/wAJ/lKgLg/R+4K/+F/yE9v9Zaw7XAADkXAAB4coaRfLqr63P6RTq85Q0i+XVX1uf0iltHcp7GvAB0pAAAsm3dRbT489YvYom3dRbT489YvY5Ni+L0AE2gAAAAAMa49Il8C/kqZJjXHpEvgX8lQKE0r627R31Vy1IGWRebTUXXR20pTQSzKxalXIxiu1UV64zgiW9C49w1X3LzrwmKRyhpAbvehcu4ar7l43oXLuGq+5ebuPrNNIXD+j9wV3003+Qrnehcu4ar7l5anMRtFTam1nPUEsO6LBq67FbrY184z9KE9sxxaw7WigAOVYAAHhyhpF8uqvrc/pFOr1OcL5oVc56yoeyhqHNfUyua5GphyK9VRS2mYiZtPNDwSPeJde4Kj7Ce0bxLr3BUfYT2nRyj6nUo4CR7xLr3BUfYT2jeJde4Kj7Ce0co+lSk1u6i2nx56xexSS26a1Wq1RVMTopEvaKrHJhURXbC7TlzWxegAm0AAAAAB8qmLd43MzjXY5ue1lMH1AFe2vQu62qBlPT3pI4okVGM+DoXauVVeFy54VMre5e+Pk82wG6r7lUS1nOlGkKOjgSolkmR7moiuVGtRrVRcrhdudhrItJqqppaR7IYEmrauoplYr3bnFqLImdZOHG5oq9vabuWah8N7l74+TzbB7T3e5e+Pk820/tNyy7yJPVwvbHmjpIJ0cmt0b3Neq8PYyxDC+Hqqp5wZAyBH3Ckkne9+urINVGLsRFy74+MfRtFyemFvcvfHqebaf2je5e+Pk820/tMxNJpmxLE6KJaxtclBhHO3BXqmsj88OrqbceQ2FouUz6qakqkjWWGOOZssaOayWN2U+K5V1XIre32hclQ0m9y98fJ5tpxvcvfHyebac2F1vFWyqngpW0+KekZVK6XXXWyruhw1ezq8PY+c/Fp0gqKial3eOFsVygfLCjFeskCtajsPVdjsovCmBcnphb3L3x8nmynG9y98fJ5tgPvFpLUrBFXrHBznUTMjbGmvzwyN8mox+twKqqrV1ccC8IumkNXTurnQx06xWtzFcj1fulQ1YWyKiKmxqprLt29jYLk9PhvcvfHyebac8bo9enJlL8i/Rbac29Rdairqlp6JsKbjTx1EskyPVF186jWo3t6jsr2O0aHR66VFFbbdHTxxLJWT1ESo9ztWNUWR+cpw41fKLk9Mje5e+Pk82U43uXvj5PNlOZGkek8llevRwSbkkSywNgqHSdEqIqrI3LY+HKa3CZlXdqmapnipGwatDGx0qy6+Znubro1uqvQ9Djolzw8AuT01e9y98fJ5spxvcvfHyebYPaZlNpBUXFlEyBsLZq2lWqke9HuigYiJwNRcuVVdjh7Z+JNJ6hKZFSGHnltyS3yNV79xV2tjWavDjCov8xcnprKrQe43KSB1bdknZTVDKhrOcY48uRe21SwDS2K5TVE9TTVKRbpSOiXdIkcjJWPblOhdnCphU4TdmZmXsAAPHoAAAAAAACNaS0D5JmTQU9W+VI3RulpqmCBdTOdV+6KmU7OU2oe6P6NpR0tJHNlJKKWSoRGvVWte9X5TK7VRN0VPISQHtzTymluWjsdfM6bdJ41liSGdsciNbURoq4R2Uz2V2phdqmurtG3uqKBIHyxxUNNURJMx7EkjVdzRuxyYcio13YVP6ErAuSmjTRmDnfcFWVVWbnlZ9f/X3fOdfW/7eTGNmDJtdobb3ySK+SWafV3SaRW67kbnVTDUREamV2InZU2YPLkpr32mN80syq7XqKdtO/bs1EzwfP0SnygscUC0qtV/+wjdHFlybUVqNXW2bdiG1AuXqPxaLQxOam6TrBHNu8dIr03COTOtng1lTWVVRqrhFMmewwztq2uV+LjjdsOTZiNI+h7WxqG2PRcvKaWs0fZUSNljlngkbEkDnxPRFliTgR2UXanYXhTKij0cgo2UzGbpq0EkkkKK7O1yORcr2fjr/AEN0BZSPXLRSK4vmV0tQxlWrHTxMe1GSPaiI13BlNjW7EXC42mFpNa5JZnvpqaqc+eBI5JIauCCKbGcJIjl1tmeFqZwqkuB7clI7TaMoympGbrJHPQwpEyeJUymWojkw5FRWrhOFOwhkR6OQRwxxJuipFVJVq9X5klm1tbL17OVN0BclMKmtzKeomnbra9SkSPyuzoEVEwnlM0A8egAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/9k=" alt="Logo Mondragon" style="height:45px; border-radius:6px; background:#fff; padding:3px; object-fit:contain;">
+        <div>
+          <h1>Generador de QR</h1>
+          <p id="header-sub">Gestión de Etiquetas y Fichas</p>
+        </div>
+      </div>
+      <button onclick="openSettings()" style="background:#ffffff30;border:none;border-radius:10px;padding:8px 10px;color:#fff;cursor:pointer;font-size:1rem;" title="Configurar Productos">⚙️</button>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="section">
+      <label>📦 Producto</label>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Buscar producto..." oninput="filterProducts()" onfocus="openDropdown()" autocomplete="off"/>
+      </div>
+      <div class="dropdown" id="dropdown"></div>
+      <div id="selected-product-badge" style="display:none;"></div>
+    </div>
+
+    <div class="section">
+      <label>🔢 Número de lote</label>
+      <div class="lote-row">
+        <div class="lote-display" id="lote-display"></div>
+        <input type="text" id="lote-input" class="lote-input" style="display:none;" onblur="finishEditLote()" onkeydown="if(event.key==='Enter')finishEditLote()"/>
+        <button class="btn-sm btn-auto" onclick="resetLote()">Auto</button>
+        <button class="btn-sm btn-edit" onclick="editLote()">Editar</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label>📅 Fecha</label>
+      <button id="fecha-btn" class="btn btn-primary" onclick="toggleFecha()" style="text-align:left;padding:10px 16px;">
+        <span id="fecha-icon">✅</span> Incluir fecha de hoy &nbsp;<span style="opacity:.7;font-size:.8rem;" id="fecha-val"></span>
+      </button>
+    </div>
+
+    <div class="section">
+      <label>👤 Operador</label>
+      <input type="text" id="operador-input" placeholder="Nombre del operador..." oninput="renderQR()"/>
+    </div>
+
+    <div id="qr-section">
+      <div class="content-box">
+        <p>Contenido del QR</p>
+        <pre id="qr-content-text"></pre>
+      </div>
+      <div id="qr-canvas-wrap">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="printLabel()">🖨️ Imprimir QR</button>
+        <button class="btn btn-outline" id="url-btn" style="display:none;" onclick="openURL()">🌐 Ver ficha</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <span>⚙️ Configuración de productos</span>
+      <button class="close-btn" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label>Productos (máx. 50)</label>
+      <div id="prod-list"></div>
+      <button class="btn-add-prod" onclick="addProductField()">+ Agregar producto</button>
+      <button class="btn-save" onclick="saveSettings()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Estado Inicial a Prueba de Fallos ─────────────────────────────────────
+// ── Estado Inicial (Conectado a Google Sheets) ────────────────────────────
+// 1. Reemplaza este texto por el link CSV que te dio Google Sheets
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJUH-GvG4LISbitInSDYWcAmzAs_bekB7BjL3yAMcP6THKMBK5JD6Aae-Mcs7fmjz0G7va2uHxvRmu/pub?output=csv";
+
+let products = [];
+
+async function cargarProductosDesdeNube() {
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    const data = await response.text();
+    
+    // Ignoramos la primera fila (encabezados) y leemos el resto
+    const filas = data.split("\n").slice(1); 
+    
+    products = filas.map((fila, index) => {
+      // Separamos la columna del nombre y la de la URL
+      const columnas = fila.split(",");
+      return {
+        id: index + 1,
+        label: columnas[0]?.trim() || "Sin nombre",
+        url: columnas[1]?.trim() || ""
+      };
+    }).filter(p => p.label !== "Sin nombre" && p.label !== "");
+
+    // Guardamos un respaldo local por si se va el internet
+    localStorage.setItem("qrious_productos_v3", JSON.stringify(products));
+
+  } catch (error) {
+    console.error("Error conectando con la base de datos:", error);
+    // Si no hay internet, usa el último respaldo guardado
+    products = JSON.parse(localStorage.getItem("qrious_productos_v3")) || [];
+  }
+}
+
+// Cargamos los datos al abrir la página
+cargarProductosDesdeNube().then(() => {
+  filterProducts(); // Refresca la barra de búsqueda
+});
+
+let selectedProduct = null;
+let includeDate = true;
+let lote = autoLote();
+let nextId = 999;
+// ── Lote ──────────────────────────────────────────────────────────────────
+function getWeek(d) {
+  const date = new Date(d);
+  date.setHours(0,0,0,0);
+  date.setDate(date.getDate() + 3 - (date.getDay()+6)%7);
+  const w1 = new Date(date.getFullYear(),0,4);
+  return 1 + Math.round(((date-w1)/86400000 - 3 + (w1.getDay()+6)%7)/7);
+}
+function autoLote() {
+  const now = new Date();
+  const letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(now.getFullYear()-2008)%26];
+  return letter + getWeek(now);
+}
+function resetLote() { lote = autoLote(); showLote(); renderQR(); }
+function editLote() {
+  document.getElementById("lote-display").style.display="none";
+  const inp = document.getElementById("lote-input");
+  inp.style.display="block"; inp.value=lote; inp.focus();
+}
+function finishEditLote() {
+  const val = document.getElementById("lote-input").value.trim().toUpperCase();
+  if(val) lote = val;
+  document.getElementById("lote-input").style.display="none";
+  showLote(); renderQR();
+}
+function showLote() { document.getElementById("lote-display").textContent = lote; }
+
+// ── Fecha ─────────────────────────────────────────────────────────────────
+function todayStr() {
+  return new Date().toLocaleDateString("es-MX",{day:"2-digit",month:"2-digit",year:"numeric"});
+}
+function toggleFecha() {
+  includeDate = !includeDate;
+  const btn = document.getElementById("fecha-btn");
+  document.getElementById("fecha-icon").textContent = includeDate ? "✅" : "⬜";
+  btn.style.background = includeDate ? "linear-gradient(135deg,#7c3aed,#4f46e5)" : "#f1f5f9";
+  btn.style.color = includeDate ? "#fff" : "#475569";
+  renderQR();
+}
+
+// ── Dropdown de productos ─────────────────────────────────────────────────
+function openDropdown() {
+  filterProducts();
+  document.getElementById("dropdown").classList.add("open");
+}
+document.addEventListener("click", e => {
+  if(!e.target.closest(".search-wrap") && !e.target.closest(".dropdown"))
+    document.getElementById("dropdown").classList.remove("open");
+});
+function filterProducts() {
+  const q = document.getElementById("search-input").value.toLowerCase();
+  const dd = document.getElementById("dropdown");
+  
+  // Agregamos seguridad: (p.label || "") previene errores si un producto no tiene nombre
+  const filtered = products.filter(p => (p.label || "").toLowerCase().includes(q));
+  
+  if(filtered.length === 0) {
+    dd.innerHTML = '<div class="no-results">Sin resultados</div>';
+  } else {
+    dd.innerHTML = filtered.map(p => `
+      <div class="dropdown-item ${selectedProduct?.id===p.id?"selected":""}"
+        onclick="selectProduct(${p.id})">
+        ${p.label || "Sin nombre"}${p.url?` <span style="color:#16a34a;font-size:.85rem;float:right;">🔗</span>`:""}
+      </div>`).join("");
+  }
+  dd.classList.add("open");
+}
+
+function selectProduct(id) {
+  selectedProduct = products.find(p=>p.id===id);
+  document.getElementById("search-input").value = selectedProduct.label;
+  document.getElementById("dropdown").classList.remove("open");
+  const badge = document.getElementById("selected-product-badge");
+  badge.style.display="block";
+  badge.innerHTML=`<span class="selected-badge">✓ ${selectedProduct.label}</span>`;
+  
+  document.getElementById("url-btn").style.display = selectedProduct.url ? "block" : "none";
+  renderQR();
+}
+
+// ── QR ────────────────────────────────────────────────────────────────────
+function buildQRData() {
+  if(!selectedProduct) return "";
+
+  const operador = document.getElementById("operador-input").value.trim();
+
+  // Sin URL → texto plano (fallback, el QR sigue funcionando)
+  if(!selectedProduct.url) {
+    return [
+      `Producto: ${selectedProduct.label}`,
+      `Lote: ${lote}`,
+      includeDate ? `Fecha: ${todayStr()}` : null,
+      operador ? `Operador: ${operador}` : null
+    ].filter(Boolean).join("\n");
+  }
+
+  // Con URL → URL accionable que iPhone abre directo en Safari
+  let base = selectedProduct.url.trim();
+  if(!/^https?:\/\//i.test(base)) base = "https://" + base;
+
+  const params = new URLSearchParams();
+  params.set("producto", selectedProduct.label);
+  params.set("lote", lote);
+  if(includeDate) params.set("fecha", todayStr());
+  if(operador)    params.set("operador", operador);
+
+  const sep = base.includes("?") ? "&" : "?";
+  return base + sep + params.toString();
+}
+
+function renderQR() {
+  const data = buildQRData();
+  const section = document.getElementById("qr-section");
+  if(!data) { section.classList.remove("visible"); return; }
+
+  document.getElementById("qr-content-text").textContent = data;
+
+  const canvas = document.getElementById("qr-canvas");
+  try {
+    new QRious({
+      element: canvas,
+      value: data,
+      size: 260,
+      level: "M",
+      background: "#ffffff",
+      foreground: "#000000",
+      padding: 16,
+    });
+  } catch(e) { console.error(e); }
+
+  section.classList.add("visible");
+}
+
+// ── Imprimir (Etiqueta 48 x 102 mm) ──────────────────────────────────────
+function getLogoDataUrl() {
+  // Logo embebido en base64 — no depende de archivo externo
+  return Promise.resolve("data:image/jpeg;base64,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");
+}
+
+async function printLabel() {
+  const canvas = document.getElementById("qr-canvas");
+  const qrDataUrl = canvas.toDataURL("image/png");
+  const logoDataUrl = await getLogoDataUrl();
+
+  // Leemos directo del estado de la app (independiente del formato del QR)
+  const producto = selectedProduct?.label || "";
+  const loteVal  = lote || "";
+  const fechaVal = includeDate ? todayStr() : "";
+  const opVal    = document.getElementById("operador-input").value.trim();
+  const enlace   = selectedProduct?.url || "";
+
+  const logoHTML = logoDataUrl
+    ? `<img class="logo" src="${logoDataUrl}" alt="Logo"/>`
+    : `<div class="logo-placeholder">MONDRAGON</div>`;
+
+  const html = `<!DOCTYPE html><html><head><title>Etiqueta</title>
+  <style>
+    @page {
+      size: 48mm 102mm;
+      margin: 0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #000;
+      width: 48mm;
+      height: 102mm;
+    }
+
+    .etiqueta {
+      width: 48mm;
+      height: 102mm;
+      padding: 2.5mm 2mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Logo ── */
+    .logo {
+      width: 44mm;
+      max-height: 18mm;
+      object-fit: contain;
+    }
+    .logo-placeholder {
+      font-size: 9pt;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    /* ── Separador ── */
+    .divider {
+      width: 100%;
+      border: none;
+      border-top: 0.4pt solid #000;
+    }
+
+    /* ── QR ── */
+    .qr-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .qr-wrap img {
+      width: 36mm;
+      height: 36mm;
+    }
+
+    /* ── Texto de datos ── */
+    .datos {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1mm;
+    }
+    .dato-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 100%;
+    }
+    .dato-key {
+      font-size: 6pt;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      margin-right: 1.5mm;
+    }
+    .dato-val {
+      font-size: 8pt;
+      font-weight: bold;
+      text-align: right;
+      word-break: break-word;
+    }
+    .dato-val.lote {
+      font-size: 10pt;
+      letter-spacing: 0.08em;
+    }
+    .dato-producto {
+      font-size: 8pt;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.25;
+      margin-bottom: 1mm;
+    }
+  </style></head><body>
+  <div class="etiqueta">
+
+    ${logoHTML}
+    <hr class="divider"/>
+
+    <div class="qr-wrap">
+      <img src="${qrDataUrl}" alt="QR"/>
+    </div>
+
+    <hr class="divider"/>
+
+    <div class="datos">
+      ${producto ? `<p class="dato-producto">${producto}</p>` : ""}
+      ${loteVal ? `<div class="dato-row"><span class="dato-key">Lote</span><span class="dato-val lote">${loteVal}</span></div>` : ""}
+      ${fechaVal ? `<div class="dato-row"><span class="dato-key">Fecha</span><span class="dato-val">${fechaVal}</span></div>` : ""}
+      ${opVal ? `<div class="dato-row"><span class="dato-key">Operador</span><span class="dato-val">${opVal}</span></div>` : ""}
+      ${enlace ? `<div class="dato-row"><span class="dato-key">Ficha</span><span class="dato-val" style="font-size:6pt;font-weight:normal;">${enlace}</span></div>` : ""}
+    </div>
+
+  </div>
+  <script>window.onload=()=>{window.focus();window.print();}<\/script>
+  </body></html>`;
+
+  let iframe = document.getElementById("print-frame");
+  if(!iframe){
+    iframe = document.createElement("iframe");
+    iframe.id = "print-frame";
+    iframe.style.cssText = "position:fixed;width:0;height:0;border:none;left:-9999px;top:-9999px;";
+    document.body.appendChild(iframe);
+  }
+  const doc = iframe.contentWindow.document;
+  doc.open(); doc.write(html); doc.close();
+  setTimeout(()=>iframe.contentWindow.focus(), 300);
+}
+
+// ── Abrir URL ─────────────────────────────────────────────────────────────
+function openURL() {
+  if(!selectedProduct?.url) return;
+  
+  let link = selectedProduct.url.trim();
+  if (!/^https?:\/\//i.test(link)) {
+    link = 'https://' + link;
+  }
+  
+  window.open(link, '_blank');
+}
+
+// ── Settings ──────────────────────────────────────────────────────────────
+function openSettings() {
+  renderProdList();
+  document.getElementById("modal").classList.add("open");
+}
+function closeSettings() { document.getElementById("modal").classList.remove("open"); }
+
+function renderProdList() {
+  document.getElementById("prod-list").innerHTML = products.map(p=>`
+    <div class="prod-item" id="prod-${p.id}">
+      <div class="prod-item-row">
+        <input type="text" value="${p.label || ''}" id="label-${p.id}" placeholder="Nombre del producto" />
+        <button class="btn-del" onclick="removeProd(${p.id})" title="Eliminar producto">✕</button>
+      </div>
+      <div class="prod-item-row">
+        <input type="url" value="${p.url || ''}" id="url-${p.id}" placeholder="https://ejemplo.com/ficha-tecnica" />
+      </div>
+    </div>`).join("");
+}
+
+function addProductField() {
+  if(products.length >= 500) { alert("Máximo 500 productos."); return; }
+  products.push({id:nextId++, label:"", url:""});
+  renderProdList();
+  
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.scrollTop = modalBody.scrollHeight;
+}
+
+function removeProd(id) {
+  products = products.filter(p=>p.id!==id);
+  if(selectedProduct?.id===id) {
+    selectedProduct=null;
+    document.getElementById("search-input").value="";
+    document.getElementById("selected-product-badge").style.display="none";
+    document.getElementById("url-btn").style.display="none";
+    renderQR();
+  }
+  renderProdList();
+}
+
+function saveSettings() {
+  products = products.map(p=>({
+    ...p,
+    label: document.getElementById("label-"+p.id)?.value.trim() || "Producto sin nombre",
+    url: document.getElementById("url-"+p.id)?.value.trim() || ""
+  }));
+  
+  try {
+    localStorage.setItem("qrious_productos_v3", JSON.stringify(products));
+  } catch(e) {
+    console.error("No se pudo guardar la memoria", e);
+  }
+  
+  if(selectedProduct) {
+    const updated = products.find(p=>p.id===selectedProduct.id);
+    if(updated) { 
+      selectedProduct=updated; 
+      document.getElementById("search-input").value=updated.label; 
+      document.getElementById("url-btn").style.display = updated.url ? "block" : "none";
+    }
+    else { 
+      selectedProduct=null; 
+      document.getElementById("search-input").value=""; 
+      document.getElementById("url-btn").style.display = "none";
+    }
+    renderQR();
+  }
+  closeSettings();
+  filterProducts();
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+showLote();
+document.getElementById("fecha-val").textContent = todayStr();
+</script>
+</body>
+</html>

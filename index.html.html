@@ -47,20 +47,16 @@
   .content-box p{font-size:.8rem;color:#94a3b8;margin-bottom:4px;}
   .content-box pre{font-size:.8rem;font-family:monospace;color:#334155;white-space:pre-wrap;word-break:break-all;}
   .actions{display:flex;flex-direction:column;gap:10px;}
-  
-  /* Settings modal */
   .modal-bg{display:none;position:fixed;inset:0;background:#0006;z-index:100;align-items:center;justify-content:center;padding:16px;}
   .modal-bg.open{display:flex;}
   .modal{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;}
   .modal-header{background:linear-gradient(135deg,#374151,#111827);color:#fff;padding:16px 20px;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;}
   .modal-body{padding:20px;}
   .modal-body label{margin-top:14px;}
-  
-  .prod-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;background:#f8fafc;border-radius:10px;margin-bottom:8px; border: 1px solid #e2e8f0;}
-  .prod-item-row{display:flex; width:100%; gap:8px;}
+  .prod-item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px;background:#f8fafc;border-radius:10px;margin-bottom:8px;border:1px solid #e2e8f0;}
+  .prod-item-row{display:flex;width:100%;gap:8px;}
   .prod-item input{flex:1;padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:.85rem;}
-  .btn-del{background:#fee2e2;color:#ef4444;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem; font-weight:bold;}
-  
+  .btn-del{background:#fee2e2;color:#ef4444;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.85rem;font-weight:bold;}
   .btn-add-prod{background:#ede9fe;color:#5b21b6;border:none;border-radius:10px;padding:10px 14px;font-size:.9rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px;}
   .btn-save{background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;border:none;border-radius:12px;padding:12px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-top:16px;}
   .close-btn{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;}
@@ -72,8 +68,8 @@
 <div class="card">
   <div class="header">
     <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div style="display:flex; align-items:center; gap:12px;">
-        <img src="data:image/jpeg;base64,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" alt="Logo Mondragon" style="height:45px; border-radius:6px; background:#fff; padding:3px; object-fit:contain;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <img src="data:image/jpeg;base64,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" alt="Logo" style="height:45px;border-radius:6px;background:#fff;padding:3px;object-fit:contain;">
         <div>
           <h1>Generador de QR</h1>
           <p id="header-sub">Gestión de Etiquetas y Fichas</p>
@@ -84,7 +80,6 @@
   </div>
 
   <div class="body">
-
     <div class="section">
       <label>📦 Producto</label>
       <div class="search-wrap">
@@ -130,7 +125,6 @@
         <button class="btn btn-outline" id="url-btn" style="display:none;" onclick="openURL()">🌐 Ver ficha</button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -141,7 +135,7 @@
       <button class="close-btn" onclick="closeSettings()">✕</button>
     </div>
     <div class="modal-body">
-      <label>Productos (máx. 50)</label>
+      <label>Productos</label>
       <div id="prod-list"></div>
       <button class="btn-add-prod" onclick="addProductField()">+ Agregar producto</button>
       <button class="btn-save" onclick="saveSettings()">💾 Guardar cambios</button>
@@ -150,50 +144,107 @@
 </div>
 
 <script>
-// ── Estado Inicial a Prueba de Fallos ─────────────────────────────────────
-// ── Estado Inicial (Conectado a Google Sheets) ────────────────────────────
-// 1. Reemplaza este texto por el link CSV que te dio Google Sheets
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRJUH-GvG4LISbitInSDYWcAmzAs_bekB7BjL3yAMcP6THKMBK5JD6Aae-Mcs7fmjz0G7va2uHxvRmu/pub?gid=0&single=true&output=csv";
+// ── BIBLIOTECA DE PRODUCTOS (sin CSV, sin internet) ───────────────────────
+const PRODUCTOS_BASE = [
+  // ── TUBOS CON RECUBRIMIENTO PEAD ──
+  { id: 1,  label: "TCR 61 PEAD",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_61.pdf" },
+  { id: 2,  label: "TCR 76 PEAD",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_76.pdf" },
+  { id: 3,  label: "TCR 91 PEAD",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_91.pdf" },
+  { id: 4,  label: "TCR 107 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_107.pdf" },
+  { id: 5,  label: "TCR 122 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_122.pdf" },
+  { id: 6,  label: "TCR 152 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_152.pdf" },
+  { id: 7,  label: "TCR 183 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_183.pdf" },
+  { id: 8,  label: "TCR 213 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_213.pdf" },
+  { id: 9,  label: "TCR 244 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR__PEAD_244.pdf" },
+  { id: 10, label: "TCR 305 PEAD", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_PEAD_305.pdf" },
+  // ── TUBOS DE CONCRETO REFORZADO ──
+  { id: 20, label: "TCR 45",       url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_45_03uDSn5.pdf" },
+  { id: 21, label: "TCR 61",       url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_61_V9Yuj06.pdf" },
+  { id: 22, label: "TCR 76",       url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_76_oWqlkjB.pdf" },
+  { id: 23, label: "TCR 91",       url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_91_Trd8931.pdf" },
+  { id: 24, label: "TCR 107",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_107_oM45gZv.pdf" },
+  { id: 25, label: "TCR 107 PARED C", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_107_PARED_C_kLMls7f.pdf" },
+  { id: 26, label: "TCR 122",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_122_EPCFnw3.pdf" },
+  { id: 27, label: "TCR 122 PARED C", url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_122_PARED_C_dXqD8Ic.pdf" },
+  { id: 28, label: "TCR 152",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_152_c3YN2H4.pdf" },
+  { id: 29, label: "TCR 183",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_183_3as3y7i.pdf" },
+  { id: 30, label: "TCR 213",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_213_DmsjRM7.pdf" },
+  { id: 31, label: "TCR 244",      url: "https://admin.concretocubico.com/media/uploads/docs/FT-TCR_244_deHo4xD.pdf" },
+  // ── BARRERAS DE CONCRETO ──
+  { id: 40, label: "BARRERA DE CONCRETO SIMPLE MINION",         url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrara_MINION_kCovNDx.pdf" },
+  { id: 41, label: "BARRERA F MODIFICADA REF 10B",              url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrara_F_modificada_REF_10B_kczWhZk.pdf" },
+  { id: 42, label: "BARRERA F MODIFICADA REF 10B ESPECIAL",     url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrara_F_modificada_ESP_REF_10B_TXQCUPU.pdf" },
+  { id: 43, label: "BARRERA F MODIFICADA REF 11B",              url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrara_F_modificada_REF_11B_SLRRSNJ.pdf" },
+  { id: 44, label: "BARRERA F MODIFICADA SIMPLE 10B ESPECIAL",  url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrara_F_modificada_ESP_SIMPLE_10B.pdf" },
+  { id: 45, label: "BARRERA NJ REF 11a",                        url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrera_NJ_REF_11a.pdf" },
+  { id: 46, label: "BARRERA NJ SIMPLE 11a",                     url: "https://admin.concretocubico.com/media/uploads/docs/FT_Barrera_NJ_REF_11a_HdM8f7o.pdf" },
+  // ── PIEZAS ESPECIALES ──
+  { id: 50, label: "PAVIMENTO TACTIL MODELO DE ADVERTENCIA",    url: "https://admin.concretocubico.com/media/uploads/docs/paviemnto_tactil_modelo_de_advertencia_ZjPs0PM.pdf" },
+  { id: 51, label: "PAVIMENTO TACTIL MODELO DE DIRECCIONAL",    url: "https://admin.concretocubico.com/media/uploads/docs/PAVIMENTO_TACTIL_MODELO_DE_DIRECCIONAL_RuOzTQr.pdf" },
+  // ── CAJONES ──
+  { id: 60, label: "CN0.80X0.60X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN0_SJpfsen.80X0.60.pdf" },
+  { id: 61, label: "CN1.00X0.75X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_LCuQ86H.00X0.75.pdf" },
+  { id: 62, label: "CN1.00X1.00X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_9Ht3xEJ.00X1.00.pdf" },
+  { id: 63, label: "CN1.25X0.75X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_nEvp67B.25X0.75.pdf" },
+  { id: 64, label: "CN1.25X1.00X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_ksWB1hP.25X1.00.pdf" },
+  { id: 65, label: "CN1.25X1.25X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_ZNHpvgy.25X1.25.pdf" },
+  { id: 66, label: "CN1.50X0.75X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_BvkTwB3.50X0.75.pdf" },
+  { id: 67, label: "CN1.50X1.00X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_jpPC3Cw.50X1.00.pdf" },
+  { id: 68, label: "CN1.50X1.25X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_bzpuBVn.50X1.25.pdf" },
+  { id: 69, label: "CN1.50X1.50X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_Of0oRnp.50X1.50.pdf" },
+  { id: 70, label: "CN1.75X1.00X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_xEysNqB.75X1.00.pdf" },
+  { id: 71, label: "CN1.75X1.50X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_CaqZqLV.75X1.50.pdf" },
+  { id: 72, label: "CN1.75X1.75X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_LL3MUyW.75X1.75.pdf" },
+  { id: 73, label: "CN1.80X1.80X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN1_OYp7Uwc.80X1.80.pdf" },
+  { id: 74, label: "CN2.00X0.75X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_cw9Z4Nk.00X0.75.pdf" },
+  { id: 75, label: "CN2.00X1.00X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_0S69roG.00X1.00.pdf" },
+  { id: 76, label: "CN2.00X1.25X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_RP49PsB.00X1.25.pdf" },
+  { id: 77, label: "CN2.00X1.50X2.50",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_MhhF62h.00X1.50.pdf" },
+  { id: 78, label: "CN2.00X2.00X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_1sxloNV.00X2.00.pdf" },
+  { id: 79, label: "CN2.25X2.00X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_92FcERh.25X2.00.pdf" },
+  { id: 80, label: "CN2.25X2.25X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_VNbm9C6.25X2.25.pdf" },
+  { id: 81, label: "CN2.50X0.75X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_5nSQYgW.50X0.75.pdf" },
+  { id: 82, label: "CN2.50X1.00X2.25",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_7U9wCnU.50X1.00.pdf" },
+  { id: 83, label: "CN2.50X1.25X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_a1StSc9.50X1.25.pdf" },
+  { id: 84, label: "CN2.50X1.50X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_kND5C9R.50X1.50.pdf" },
+  { id: 85, label: "CN2.50X1.75X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_mpkcy7I.50X1.75.pdf" },
+  { id: 86, label: "CN2.50X2.00X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_cjP6VmK.50X2.00.pdf" },
+  { id: 87, label: "CN2.50X2.25X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_O6enlAI.50X2.25.pdf" },
+  { id: 88, label: "CN2.50X2.50X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_iFaYw4V.50X2.50.pdf" },
+  { id: 89, label: "CN2.75X2.00X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN2_NAIkfyb.75X2.00.pdf" },
+  { id: 90, label: "CN3.00X1.00X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_KyC8pE1.00X1.00.pdf" },
+  { id: 91, label: "CN3.00X1.25X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_s676tHN.00X1.25.pdf" },
+  { id: 92, label: "CN3.00X1.50X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_63QqiqD.00X1.50.pdf" },
+  { id: 93, label: "CN3.00X1.80X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_rci1DmX.00X1.80.pdf" },
+  { id: 94, label: "CN3.00X2.00X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_fWWmoqc.00X2.00.pdf" },
+  { id: 95, label: "CN3.00X2.50X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_fTR4QrQ.00X2.50.pdf" },
+  { id: 96, label: "CN3.00X3.00X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_bfohs4E.00X3.00.pdf" },
+  { id: 97, label: "CN3.25X1.50X2.00",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_1JhOsBQ.25X1.50.pdf" },
+  { id: 98, label: "CN3.50X1.00X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_qmLUq8p.50X1.00.pdf" },
+  { id: 99, label: "CN3.50X1.50X1.75",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_6zOgAiY.50X1.50.pdf" },
+  { id: 100, label: "CN3.50X2.00X1.50", url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_tXboXIY.50X2.00.pdf" },
+  { id: 101, label: "CN3.50X2.50X1.50", url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_a8KY4CY.50X2.50.pdf" },
+  { id: 102, label: "CN3.50X3.00X1.50", url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_B9upgCH.50X3.00.pdf" },
+  { id: 103, label: "CN3.50X3.50X1.25", url: "https://admin.concretocubico.com/media/uploads/docs/FT-CN3_eQEswS6.50X3.50.pdf" },
+  // ── POZO DE VISITA ──
+  { id: 110, label: "POZO BASE 122",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-BASE_122_JZyr3ey.pdf" },
+  { id: 111, label: "POZO BASE 152",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-BASE_152_mDZ1gLp.pdf" },
+  { id: 112, label: "POZO CONO 122",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-CONO_122_5VnASx8.pdf" },
+  { id: 113, label: "POZO CONO 152",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-CONO_152_BBF7anM.pdf" },
+  { id: 114, label: "POZO CUERPO 122",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CUERPO_122_iVBW6T5.pdf" },
+  { id: 115, label: "POZO CUERPO 152",  url: "https://admin.concretocubico.com/media/uploads/docs/FT-CUERPO_152_WXgVB61.pdf" },
+  { id: 116, label: "POZO DONA 122",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-DONA_122_6wGFu7Q.pdf" },
+  { id: 117, label: "POZO DONA 152",    url: "https://admin.concretocubico.com/media/uploads/docs/FT-DONA_152_va9FIju.pdf" },
+];
 
-let products = [];
-
-async function cargarProductosDesdeNube() {
-  try {
-    const response = await fetch(SHEET_CSV_URL);
-    const data = await response.text();
-    
-    // Ignoramos la primera fila (encabezados) y leemos el resto
-    const filas = data.split("\n").slice(1); 
-    
-    products = filas.map((fila, index) => {
-      // Separamos la columna del nombre y la de la URL
-      const columnas = fila.split(",");
-      return {
-        id: index + 1,
-        label: columnas[0]?.trim() || "Sin nombre",
-        url: columnas[1]?.trim() || ""
-      };
-    }).filter(p => p.label !== "Sin nombre" && p.label !== "");
-
-    // Guardamos un respaldo local por si se va el internet
-    localStorage.setItem("qrious_productos_v3", JSON.stringify(products));
-
-  } catch (error) {
-    console.error("Error conectando con la base de datos:", error);
-    // Si no hay internet, usa el último respaldo guardado
-    products = JSON.parse(localStorage.getItem("qrious_productos_v3")) || [];
-  }
-}
-
-// Cargamos los datos al abrir la página
-cargarProductosDesdeNube().then(() => {
-  filterProducts(); // Refresca la barra de búsqueda
-});
-
+// Los productos se cargan desde la biblioteca base.
+// El panel ⚙️ permite agregar/editar temporalmente en sesión.
+let products = [...PRODUCTOS_BASE];
 let selectedProduct = null;
 let includeDate = true;
 let lote = autoLote();
-let nextId = 999;
+let nextId = 500;
+
 // ── Lote ──────────────────────────────────────────────────────────────────
 function getWeek(d) {
   const date = new Date(d);
@@ -234,7 +285,7 @@ function toggleFecha() {
   renderQR();
 }
 
-// ── Dropdown de productos ─────────────────────────────────────────────────
+// ── Dropdown ──────────────────────────────────────────────────────────────
 function openDropdown() {
   filterProducts();
   document.getElementById("dropdown").classList.add("open");
@@ -246,22 +297,18 @@ document.addEventListener("click", e => {
 function filterProducts() {
   const q = document.getElementById("search-input").value.toLowerCase();
   const dd = document.getElementById("dropdown");
-  
-  // Agregamos seguridad: (p.label || "") previene errores si un producto no tiene nombre
-  const filtered = products.filter(p => (p.label || "").toLowerCase().includes(q));
-  
+  const filtered = products.filter(p => (p.label||"").toLowerCase().includes(q));
   if(filtered.length === 0) {
     dd.innerHTML = '<div class="no-results">Sin resultados</div>';
   } else {
     dd.innerHTML = filtered.map(p => `
       <div class="dropdown-item ${selectedProduct?.id===p.id?"selected":""}"
         onclick="selectProduct(${p.id})">
-        ${p.label || "Sin nombre"}${p.url?` <span style="color:#16a34a;font-size:.85rem;float:right;">🔗</span>`:""}
+        ${p.label||"Sin nombre"}${p.url?` <span style="color:#16a34a;font-size:.85rem;float:right;">🔗</span>`:""}
       </div>`).join("");
   }
   dd.classList.add("open");
 }
-
 function selectProduct(id) {
   selectedProduct = products.find(p=>p.id===id);
   document.getElementById("search-input").value = selectedProduct.label;
@@ -269,7 +316,6 @@ function selectProduct(id) {
   const badge = document.getElementById("selected-product-badge");
   badge.style.display="block";
   badge.innerHTML=`<span class="selected-badge">✓ ${selectedProduct.label}</span>`;
-  
   document.getElementById("url-btn").style.display = selectedProduct.url ? "block" : "none";
   renderQR();
 }
@@ -277,10 +323,7 @@ function selectProduct(id) {
 // ── QR ────────────────────────────────────────────────────────────────────
 function buildQRData() {
   if(!selectedProduct) return "";
-
   const operador = document.getElementById("operador-input").value.trim();
-
-  // Sin URL → texto plano (fallback, el QR sigue funcionando)
   if(!selectedProduct.url) {
     return [
       `Producto: ${selectedProduct.label}`,
@@ -289,47 +332,30 @@ function buildQRData() {
       operador ? `Operador: ${operador}` : null
     ].filter(Boolean).join("\n");
   }
-
-  // Con URL → URL accionable que iPhone abre directo en Safari
   let base = selectedProduct.url.trim();
   if(!/^https?:\/\//i.test(base)) base = "https://" + base;
-
   const params = new URLSearchParams();
   params.set("producto", selectedProduct.label);
   params.set("lote", lote);
   if(includeDate) params.set("fecha", todayStr());
   if(operador)    params.set("operador", operador);
-
   const sep = base.includes("?") ? "&" : "?";
   return base + sep + params.toString();
 }
-
 function renderQR() {
   const data = buildQRData();
   const section = document.getElementById("qr-section");
   if(!data) { section.classList.remove("visible"); return; }
-
   document.getElementById("qr-content-text").textContent = data;
-
   const canvas = document.getElementById("qr-canvas");
   try {
-    new QRious({
-      element: canvas,
-      value: data,
-      size: 260,
-      level: "M",
-      background: "#ffffff",
-      foreground: "#000000",
-      padding: 16,
-    });
+    new QRious({ element:canvas, value:data, size:260, level:"M", background:"#ffffff", foreground:"#000000", padding:16 });
   } catch(e) { console.error(e); }
-
   section.classList.add("visible");
 }
 
-// ── Imprimir (Etiqueta 48 x 102 mm) ──────────────────────────────────────
+// ── Imprimir ──────────────────────────────────────────────────────────────
 function getLogoDataUrl() {
-  // Logo embebido en base64 — no depende de archivo externo
   return Promise.resolve("data:image/jpeg;base64,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");
 }
 
@@ -337,124 +363,38 @@ async function printLabel() {
   const canvas = document.getElementById("qr-canvas");
   const qrDataUrl = canvas.toDataURL("image/png");
   const logoDataUrl = await getLogoDataUrl();
-
-  // Leemos directo del estado de la app (independiente del formato del QR)
   const producto = selectedProduct?.label || "";
   const loteVal  = lote || "";
   const fechaVal = includeDate ? todayStr() : "";
   const opVal    = document.getElementById("operador-input").value.trim();
   const enlace   = selectedProduct?.url || "";
-
   const logoHTML = logoDataUrl
     ? `<img class="logo" src="${logoDataUrl}" alt="Logo"/>`
     : `<div class="logo-placeholder">MONDRAGON</div>`;
 
   const html = `<!DOCTYPE html><html><head><title>Etiqueta</title>
   <style>
-    @page {
-      size: 48mm 102mm;
-      margin: 0;
-    }
+    @page { size: 48mm 102mm; margin: 0; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #000;
-      width: 48mm;
-      height: 102mm;
-    }
-
-    .etiqueta {
-      width: 48mm;
-      height: 102mm;
-      padding: 2.5mm 2mm;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* ── Logo ── */
-    .logo {
-      width: 44mm;
-      max-height: 18mm;
-      object-fit: contain;
-    }
-    .logo-placeholder {
-      font-size: 9pt;
-      font-weight: bold;
-      letter-spacing: 0.1em;
-      text-align: center;
-    }
-
-    /* ── Separador ── */
-    .divider {
-      width: 100%;
-      border: none;
-      border-top: 0.4pt solid #000;
-    }
-
-    /* ── QR ── */
-    .qr-wrap {
-      display: flex;
-      justify-content: center;
-    }
-    .qr-wrap img {
-      width: 36mm;
-      height: 36mm;
-    }
-
-    /* ── Texto de datos ── */
-    .datos {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 1mm;
-    }
-    .dato-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      width: 100%;
-    }
-    .dato-key {
-      font-size: 6pt;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      white-space: nowrap;
-      margin-right: 1.5mm;
-    }
-    .dato-val {
-      font-size: 8pt;
-      font-weight: bold;
-      text-align: right;
-      word-break: break-word;
-    }
-    .dato-val.lote {
-      font-size: 10pt;
-      letter-spacing: 0.08em;
-    }
-    .dato-producto {
-      font-size: 8pt;
-      font-weight: bold;
-      text-align: center;
-      line-height: 1.25;
-      margin-bottom: 1mm;
-    }
+    body { font-family: Arial, sans-serif; background: #fff; color: #000; width: 48mm; height: 102mm; }
+    .etiqueta { width: 48mm; height: 102mm; padding: 2.5mm 2mm; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+    .logo { width: 44mm; max-height: 18mm; object-fit: contain; }
+    .logo-placeholder { font-size: 9pt; font-weight: bold; letter-spacing: 0.1em; text-align: center; }
+    .divider { width: 100%; border: none; border-top: 0.4pt solid #000; }
+    .qr-wrap { display: flex; justify-content: center; }
+    .qr-wrap img { width: 36mm; height: 36mm; }
+    .datos { width: 100%; display: flex; flex-direction: column; gap: 1mm; }
+    .dato-row { display: flex; justify-content: space-between; align-items: baseline; width: 100%; }
+    .dato-key { font-size: 6pt; color: #555; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; margin-right: 1.5mm; }
+    .dato-val { font-size: 8pt; font-weight: bold; text-align: right; word-break: break-word; }
+    .dato-val.lote { font-size: 10pt; letter-spacing: 0.08em; }
+    .dato-producto { font-size: 8pt; font-weight: bold; text-align: center; line-height: 1.25; margin-bottom: 1mm; }
   </style></head><body>
   <div class="etiqueta">
-
     ${logoHTML}
     <hr class="divider"/>
-
-    <div class="qr-wrap">
-      <img src="${qrDataUrl}" alt="QR"/>
-    </div>
-
+    <div class="qr-wrap"><img src="${qrDataUrl}" alt="QR"/></div>
     <hr class="divider"/>
-
     <div class="datos">
       ${producto ? `<p class="dato-producto">${producto}</p>` : ""}
       ${loteVal ? `<div class="dato-row"><span class="dato-key">Lote</span><span class="dato-val lote">${loteVal}</span></div>` : ""}
@@ -462,7 +402,6 @@ async function printLabel() {
       ${opVal ? `<div class="dato-row"><span class="dato-key">Operador</span><span class="dato-val">${opVal}</span></div>` : ""}
       ${enlace ? `<div class="dato-row"><span class="dato-key">Ficha</span><span class="dato-val" style="font-size:6pt;font-weight:normal;">${enlace}</span></div>` : ""}
     </div>
-
   </div>
   <script>window.onload=()=>{window.focus();window.print();}<\/script>
   </body></html>`;
@@ -482,44 +421,31 @@ async function printLabel() {
 // ── Abrir URL ─────────────────────────────────────────────────────────────
 function openURL() {
   if(!selectedProduct?.url) return;
-  
   let link = selectedProduct.url.trim();
-  if (!/^https?:\/\//i.test(link)) {
-    link = 'https://' + link;
-  }
-  
+  if(!/^https?:\/\//i.test(link)) link = 'https://' + link;
   window.open(link, '_blank');
 }
 
 // ── Settings ──────────────────────────────────────────────────────────────
-function openSettings() {
-  renderProdList();
-  document.getElementById("modal").classList.add("open");
-}
+function openSettings() { renderProdList(); document.getElementById("modal").classList.add("open"); }
 function closeSettings() { document.getElementById("modal").classList.remove("open"); }
-
 function renderProdList() {
   document.getElementById("prod-list").innerHTML = products.map(p=>`
     <div class="prod-item" id="prod-${p.id}">
       <div class="prod-item-row">
-        <input type="text" value="${p.label || ''}" id="label-${p.id}" placeholder="Nombre del producto" />
-        <button class="btn-del" onclick="removeProd(${p.id})" title="Eliminar producto">✕</button>
+        <input type="text" value="${p.label||''}" id="label-${p.id}" placeholder="Nombre del producto"/>
+        <button class="btn-del" onclick="removeProd(${p.id})" title="Eliminar">✕</button>
       </div>
       <div class="prod-item-row">
-        <input type="url" value="${p.url || ''}" id="url-${p.id}" placeholder="https://ejemplo.com/ficha-tecnica" />
+        <input type="url" value="${p.url||''}" id="url-${p.id}" placeholder="https://ejemplo.com/ficha.pdf"/>
       </div>
     </div>`).join("");
 }
-
 function addProductField() {
-  if(products.length >= 500) { alert("Máximo 500 productos."); return; }
   products.push({id:nextId++, label:"", url:""});
   renderProdList();
-  
-  const modalBody = document.querySelector('.modal-body');
-  modalBody.scrollTop = modalBody.scrollHeight;
+  document.querySelector('.modal-body').scrollTop = 999999;
 }
-
 function removeProd(id) {
   products = products.filter(p=>p.id!==id);
   if(selectedProduct?.id===id) {
@@ -531,32 +457,16 @@ function removeProd(id) {
   }
   renderProdList();
 }
-
 function saveSettings() {
   products = products.map(p=>({
     ...p,
-    label: document.getElementById("label-"+p.id)?.value.trim() || "Producto sin nombre",
-    url: document.getElementById("url-"+p.id)?.value.trim() || ""
+    label: document.getElementById("label-"+p.id)?.value.trim() || "Sin nombre",
+    url:   document.getElementById("url-"+p.id)?.value.trim() || ""
   }));
-  
-  try {
-    localStorage.setItem("qrious_productos_v3", JSON.stringify(products));
-  } catch(e) {
-    console.error("No se pudo guardar la memoria", e);
-  }
-  
   if(selectedProduct) {
     const updated = products.find(p=>p.id===selectedProduct.id);
-    if(updated) { 
-      selectedProduct=updated; 
-      document.getElementById("search-input").value=updated.label; 
-      document.getElementById("url-btn").style.display = updated.url ? "block" : "none";
-    }
-    else { 
-      selectedProduct=null; 
-      document.getElementById("search-input").value=""; 
-      document.getElementById("url-btn").style.display = "none";
-    }
+    if(updated) { selectedProduct=updated; document.getElementById("search-input").value=updated.label; document.getElementById("url-btn").style.display=updated.url?"block":"none"; }
+    else { selectedProduct=null; document.getElementById("search-input").value=""; document.getElementById("url-btn").style.display="none"; }
     renderQR();
   }
   closeSettings();
@@ -566,6 +476,7 @@ function saveSettings() {
 // ── Init ──────────────────────────────────────────────────────────────────
 showLote();
 document.getElementById("fecha-val").textContent = todayStr();
+filterProducts();
 </script>
 </body>
 </html>
